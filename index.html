@@ -18,8 +18,8 @@
         }
         
         /* The loading page, dressed like the game: the menu's off-white paper
-           with the active chapter card's mint wash, the Cinemoji logo, a row
-           of emoji tiles hopping the way the answer tiles do, and the menu's
+           with the active chapter card's mint wash, a row of emoji tiles
+           hopping the way the answer tiles do, and the menu's
            own yellow-on-grey progress bar. It is plain HTML so it is up before
            the game's code has even arrived; BootScene fills the bar and the
            menu fades it away. */
@@ -48,13 +48,6 @@
             pointer-events: none;
         }
 
-        #loader-logo {
-            display: block;
-            width: min(76vw, 300px);
-            height: auto;
-            animation: loader-float 1.6s ease-in-out infinite alternate;
-        }
-
         /* four white tiles, like the ones the answers are picked from */
         #loader-tiles {
             display: flex;
@@ -81,12 +74,10 @@
             content: '';
             width: 46px;
             height: 46px;
+            background-image: url('assets/loader/emoji.png');
             background-repeat: no-repeat;
             background-size: 184px 46px;
         }
-
-        .webp #loader-tiles i::before { background-image: url('assets/loader/emoji.webp'); }
-        .no-webp #loader-tiles i::before { background-image: url('assets/loader/emoji.png'); }
 
         #loader-tiles i:nth-child(2) { animation-delay: 0.14s; }
         #loader-tiles i:nth-child(3) { animation-delay: 0.28s; }
@@ -136,11 +127,6 @@
             letter-spacing: 0.5px;
         }
 
-        @keyframes loader-float {
-            from { transform: translateY(-5px); }
-            to { transform: translateY(5px); }
-        }
-
         /* a squash before the jump and on landing, like the game's tiles */
         @keyframes loader-hop {
             0%, 55%, 100% { transform: translateY(0) scale(1, 1); }
@@ -150,37 +136,19 @@
         }
 
         @media (prefers-reduced-motion: reduce) {
-            #loader-logo, #loader-tiles i { animation: none; }
+            #loader-tiles i { animation: none; }
         }
     </style>
 </head>
 
 <body>
     <div id="loader">
-        <picture>
-            <source srcset="assets/loader/logo.webp" type="image/webp">
-            <img id="loader-logo" src="assets/loader/logo.png" alt="Cinemoji">
-        </picture>
         <div id="loader-tiles" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
         <div id="loader-bar">
             <div id="loader-track"><div id="loader-fill"></div></div>
             <div id="loader-text">Loading...</div>
         </div>
     </div>
-
-    <script>
-        // the tiles are a CSS background, which <picture> cannot pick for,
-        // so the page checks for WebP itself and says so on <html>
-        (function() {
-            var img = new Image();
-            function mark(ok) {
-                document.documentElement.classList.add(ok ? 'webp' : 'no-webp');
-            }
-            img.onload = function() { mark(img.width > 0); };
-            img.onerror = function() { mark(false); };
-            img.src = 'data:image/webp;base64,UklGRiIAAABXRUJQVlA4IBYAAAAwAQCdASoBAAEADsD+JaQAA3AAAAAA';
-        })();
-    </script>
 
     <script>
         // BootScene reports how much has arrived (0..1); the bar never starts

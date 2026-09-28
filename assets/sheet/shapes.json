@@ -1675,7 +1675,7 @@
  },
  "meta": {
   "app": "tools/make_shapes.py",
-  "image": "shapes.png",
+  "image": "shapes.webp",
   "format": "RGBA8888",
   "size": {
    "w": 1294,
